@@ -31,6 +31,11 @@ if(!verify_only){
  dir.create('bp_source');untar('BayesPrism_source.tar.gz',exdir='bp_source');p<-file.path(list.files('bp_source',full.names=TRUE),'BayesPrism');stopifnot(length(p)==1)
  stopifnot(system2(file.path(R.home('bin'),'R'),c('CMD','INSTALL','-l','/work/R_library',shQuote(p)))==0)
  stopifnot(system2(file.path(R.home('bin'),'R'),c('CMD','INSTALL','-l','/work/R_library','TALLBMDeconv_0.1.1.tar.gz'))==0)
- actual<-vapply(lock$Package,function(p)as.character(packageVersion(p)),character(1));stopifnot(identical(unname(actual),lock$Version))
+ actual<-vapply(lock$Package,function(p)as.character(packageVersion(p)),character(1))
+ expected<-as.character(package_version(lock$Version))
+ matched<-unname(actual)==expected
+ write.table(data.frame(Package=lock$Package,source_version=lock$Version,canonical_expected=expected,installed=unname(actual),matched=matched),
+             'INSTALLED_VERSION_AUDIT.tsv',sep='\t',quote=FALSE,row.names=FALSE)
+ if(!all(matched))stop('Installed dependency version differs from lock: ',paste(lock$Package[!matched],collapse=', '))
 }
 writeLines(if(verify_only)'PASS_EXISTING_SOURCE_CACHE_HASHES_AND_RESTORE_PARSE'else'PASS_LOCKED_SOURCE_RESTORE','RESTORE_ACCEPTANCE.txt')
