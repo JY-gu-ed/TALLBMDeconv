@@ -1,0 +1,10 @@
+test_that("independent validation rejects leakage and holdout excludes whole patients", {
+  f<-fixture();bulk<-f$bulk;colnames(bulk)<-c("D1","D2")
+  truth<-list(counts=f$x,cell_annotations=f$a,patient_ids=f$donors)
+  expect_error(tall_benchmark(bulk,truth,f$ref),"leakage")
+  v<-tall_benchmark(bulk,truth,f$ref,split="holdout",min_cells=1,config=f$cfg)
+  expect_true(all(!v$split_audit$overlap_after_split));expect_true(all(v$split_audit$reference_patients==1L))
+  expect_true(all(c("reference_mean_RMSE","improvement_over_mean","prediction_available")%in%names(v$expression)))
+  v2<-tall_benchmark(bulk,truth,f$ref,split="lopo",min_cells=1,config=f$cfg)
+  expect_true(all(v2$split_audit$reference_patients==2L));expect_true(all(!v2$split_audit$overlap_after_split))
+})

@@ -1,0 +1,9 @@
+*.o
+*.so
+*.dll
+.RData
+.Rhistory
+R_library/
+source_cache/
+example_*/
+*.sif

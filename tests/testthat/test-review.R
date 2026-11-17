@@ -1,0 +1,58 @@
+test_that('imported fits must use the requested counts and observations', {
+  f<-fixture();r<-tall_deconv(f$bulk,f$ref,config=f$cfg)
+  tr<-list(counts=f$x,cell_annotations=f$a,patient_ids=c('V1','V2','V1','V2','other','other'))
+  changed<-f$bulk;changed[1,1]<-changed[1,1]+5
+  expect_error(tall_benchmark(changed,tr,f$ref,results=r,min_cells=1),'bulk counts differ')
+  expect_error(tall_benchmark(f$bulk,tr,f$ref,results=r,flow=flow_fixture(),min_cells=1),'requested flow')
+  expect_error(tall_benchmark(f$bulk,tr,f$ref,results=list(V1=r),min_cells=1),'missing patient')
+  altered<-f$ref;altered$cell_sizes<-altered$cell_sizes*2
+  altered$reference_hash<-TALLBMDeconv:::.hash(list(altered$phi,altered$groups,altered$patients,altered$cell_sizes))
+  expect_error(tall_benchmark(f$bulk,tr,altered,results=r,min_cells=1),'cell-size scale')
+  yes<-tall_add_flow(r,flow_fixture())
+  b<-tall_benchmark(f$bulk,tr,f$ref,results=yes,flow=flow_fixture(),min_cells=1)
+  expect_true(any(b$composition$evaluation_role=='input_gate_calibration'))
+  expect_true(all(tall_verify(yes$path)$pass))
+  tr$cell_annotations<-rbind(f$a,f$a[1,,drop=FALSE])
+  expect_error(tall_benchmark(f$bulk,tr,f$ref,results=r,min_cells=1),'unique cell_id')
+})
+test_that('partial flow coverage and zero strength are truthful switches', {
+  f<-fixture();b<-f$bulk;colnames(b)<-c('D1','D2')
+  tr<-list(counts=f$x,cell_annotations=f$a,patient_ids=f$donors)
+  flow<-flow_fixture(sample='D1');flow<-flow[,setdiff(names(flow),c('lower','upper'))]
+  expect_equal(nrow(TALLBMDeconv:::.prepare_flow(flow[FALSE,,drop=FALSE],f$ref,colnames(b))),0)
+  result<-tall_benchmark(b,tr,f$ref,split='holdout',flow=flow,min_cells=1,config=f$cfg)
+  expect_true(any(result$composition$patient=='D1'&result$composition$evaluation_role=='input_gate_calibration'))
+  expect_false(any(result$composition$patient=='D2'&result$composition$evaluation_role=='input_gate_calibration'))
+  a<-tall_deconv(f$bulk,f$ref,config=f$cfg)
+  z<-tall_deconv(f$bulk,f$ref,flow=flow_fixture(),config=c(f$cfg,list(flow_strength=0)))
+  expect_identical(tall_extract(a),tall_extract(z))
+  m<-read.delim(file.path(z$path,'metadata/sample_manifest.tsv'))
+  expect_false(any(m$flow_used));expect_false(any(z$flow$used));expect_true(all(z$flow$requested))
+})
+test_that('frozen sampler is independent of the calling RNG and restores it', {
+  f<-fixture();old<-RNGkind();had<-exists('.Random.seed',envir=.GlobalEnv,inherits=FALSE)
+  if(had)seed0<-get('.Random.seed',envir=.GlobalEnv)
+  on.exit({do.call(RNGkind,as.list(old));if(had)assign('.Random.seed',seed0,envir=.GlobalEnv)})
+  a<-tall_deconv(f$bulk,f$ref,config=f$cfg)
+  RNGkind("L'Ecuyer-CMRG");set.seed(12345);seed<-.Random.seed;kind<-RNGkind()
+  b<-tall_deconv(f$bulk,f$ref,config=f$cfg)
+  expect_identical(tall_extract(a),tall_extract(b))
+  expect_identical(RNGkind(),kind);expect_identical(.Random.seed,seed)
+  expect_error(tall_deconv(f$bulk,f$ref,config=list(thin=c(2,4))),'scalars')
+})
+test_that('ambiguous parents and incomplete outputs fail explicitly', {
+  f<-fixture();a<-f$a;a$coarse_group<-'B'
+  expect_error(tall_build_reference(f$x,a,f$donors),'namespace')
+  r<-tall_deconv(f$bulk,f$ref,config=f$cfg)
+  writeLines('{"status":"FAILED_QA"}',file.path(r$path,'metadata/run_manifest.json'))
+  expect_error(tall_read_result(r$path),'incomplete or failed QA')
+})
+test_that('Ensembl mapping preserves the raw input library denominator', {
+  f<-fixture();ref<-f$ref
+  ref$gene_map<-data.frame(gene_id=paste0('ENSG',1:6),display_symbol=rownames(f$bulk))
+  x<-rbind(f$bulk,unmapped=c(100,100));rownames(x)<-paste0('ENSG',c(1:6,999),'.1')
+  a<-tall_deconv(x,ref,gene_id_type='ensembl',config=f$cfg)
+  expect_equal(unname(a$retained_read_fraction),unname(colSums(f$bulk)/colSums(x)))
+  b<-tall_deconv(f$bulk,f$ref,config=f$cfg)
+  expect_identical(tall_extract(a),tall_extract(b))
+})

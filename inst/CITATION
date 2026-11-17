@@ -1,0 +1,2 @@
+bibentry(bibtype="Manual",title="TALLBMDeconv: Atlas-Guided Deconvolution of Paediatric T-ALL Bone Marrow",
+  author=person("Jiayue","Gu"),year="2026",note="R package version 0.1.1. Also cite the underlying BayesPrism algorithm and source atlas studies as applicable.")

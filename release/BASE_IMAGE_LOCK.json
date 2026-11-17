@@ -1,0 +1,31 @@
+{
+  "image": "bioconductor/bioconductor_docker",
+  "source_tag": "RELEASE_3_22",
+  "platform": "linux/amd64",
+  "manifest_digest": "sha256:67ab741591c5cd068f8993ca5f0371794c300da9cc5e0b3b2c1c90c9058e4c6f",
+  "pinned_image": "bioconductor/bioconductor_docker@sha256:67ab741591c5cd068f8993ca5f0371794c300da9cc5e0b3b2c1c90c9058e4c6f",
+  "config_digest": "sha256:7da6175410ad783fab92656b46c247ce6b72473e485e4aca0c176703fb381c63",
+  "compressed_layer_bytes": 1556416350,
+  "image_environment": [
+    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "R_VERSION=4.5.2",
+    "R_HOME=/usr/local/lib/R",
+    "TZ=Etc/UTC",
+    "CRAN=https://p3m.dev/cran/__linux__/noble/latest",
+    "LANG=en_US.UTF-8",
+    "S6_VERSION=v2.1.0.2",
+    "RSTUDIO_VERSION=2025.09.2+418",
+    "DEFAULT_USER=rstudio",
+    "BIOCONDUCTOR_USE_CONTAINER_REPOSITORY=TRUE",
+    "TARGETARCH=amd64",
+    "TARGETPLATFORM=linux/amd64",
+    "PLATFORM=linux/amd64",
+    "LIBSBML_CFLAGS=-I/usr/include",
+    "LIBSBML_LIBS=-lsbml",
+    "BIOCONDUCTOR_DOCKER_VERSION=3.22.4",
+    "BIOCONDUCTOR_VERSION=3.22",
+    "BIOCONDUCTOR_NAME=bioconductor_docker"
+  ],
+  "image_created": "2025-12-02T22:04:34.926349943Z",
+  "fetched_from": "Docker registry official repository"
+}

@@ -1,0 +1,11 @@
+^\.git$
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^LICENSE$
+^\.github$
+^release$
+^dist$
+^examples$
+^Dockerfile$
+^\.gitattributes$

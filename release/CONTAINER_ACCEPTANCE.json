@@ -1,0 +1,12 @@
+{
+  "status": "PASS_FRESH_DIGEST_PINNED_CONTAINER",
+  "R": "4.5.2",
+  "Bioconductor": "3.22",
+  "public_package": "0.1.1",
+  "BayesPrism": "2.2.3",
+  "copied_Eddie_R_libraries": false,
+  "base_has_preinstalled_packages": true,
+  "new125_fits": 0,
+  "historical_benchmark_rerun": false,
+  "R_CMD_check_exit": 0
+}

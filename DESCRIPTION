@@ -1,0 +1,26 @@
+Package: TALLBMDeconv
+Type: Package
+Title: Atlas-Guided Deconvolution of Paediatric T-ALL Bone Marrow
+Version: 0.1.1
+Authors@R: person("Jiayue", "Gu", email = "jiayue.gu@ed.ac.uk", role = c("aut", "cre"))
+Description: Versioned single-cell reference management, fixed-reference
+    BayesPrism initial read allocation, optional typed flow observations,
+    file-backed expression and gene-source outputs, and patient-level paired
+    validation. Keeps RNA contribution, cell proxies and expression recovery
+    distinct. The default execution kernel reproduces the project's frozen
+    BayesPrism initial-allocation configuration without reference updating.
+License: GPL-3
+Encoding: UTF-8
+Depends: R (>= 4.1)
+Imports: BayesPrism (>= 2.2.3), Rcpp, digest, jsonlite, Matrix, stats,
+        utils
+LinkingTo: Rcpp
+Suggests: testthat (>= 3.0.0), knitr, rmarkdown
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+SystemRequirements: C++11
+Config/roxygen2/version: 8.1.1
+NeedsCompilation: yes
+Packaged: 2026-11-17 01:20:47 UTC; s2573407
+Author: Jiayue Gu [aut, cre]
+Maintainer: Jiayue Gu <jiayue.gu@ed.ac.uk>

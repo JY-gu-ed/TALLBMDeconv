@@ -1,0 +1,16 @@
+test_that("real sparse single-cell and bulk inputs match dense inputs", {
+  f<-fixture();s<-Matrix::Matrix(f$x,sparse=TRUE)
+  a<-f$a[c(6,2,4,1,5,3),];a$group<-factor(a$group)
+  named<-stats::setNames(f$donors,colnames(f$x));named<-named[rev(seq_along(named))]
+  ref<-tall_build_reference(s,a,named,"sparse_fixture_v1")
+  expect_equal(ref$phi,f$ref$phi)
+  expect_equal(ref$cell_sizes,f$ref$cell_sizes)
+  dense<-tall_deconv(f$bulk,f$ref,config=f$cfg)
+  sparse<-tall_deconv(Matrix::Matrix(f$bulk,sparse=TRUE),ref,config=f$cfg)
+  expect_equal(tall_extract(dense),tall_extract(sparse),tolerance=0)
+  expect_true(all(tall_qc(sparse)$pass))
+  bulk<-Matrix::Matrix(f$bulk,sparse=TRUE);colnames(bulk)<-c("D1","D2")
+  truth<-list(counts=s,cell_annotations=f$a,patient_ids=f$donors)
+  v<-tall_benchmark(bulk,truth,ref,split="holdout",min_cells=1,config=f$cfg)
+  expect_true(all(!v$split_audit$overlap_after_split))
+})

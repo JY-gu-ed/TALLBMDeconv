@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Please cite this software and the upstream methods and reference data used."
+title: "TALLBMDeconv: paediatric T-ALL bone-marrow deconvolution"
+version: 0.1.1
+type: software
+authors:
+  - family-names: Gu
+    given-names: Jiayue
+repository-code: "https://github.com/JY-gu-ed/TALLBMDeconv"
+license: GPL-3.0-only

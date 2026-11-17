@@ -1,0 +1,64 @@
+name: supported-linux
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify unchanged inference sources
+        run: python3 release/verify_publication.py
+      - name: Build locked environment, run workflow and check
+        shell: bash
+        run: docker build --platform linux/amd64 --progress=plain -t tallbmdeconv-code:0.1.1 . 2>&1 | tee container-build.log
+      - name: Extract successful container QA
+        run: |
+          id=$(docker create tallbmdeconv-code:0.1.1)
+          docker cp "$id:/work/ci_qa" ./ci_qa
+          docker rm "$id"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: linux-check-logs
+          path: |
+            container-build.log
+            ci_qa/
+      - name: Prepare release assets
+        run: |
+          mkdir release_assets
+          cp dist/TALLBMDeconv_0.1.1.tar.gz release_assets/
+          cp release/RELEASE_NOTES_v0.1.1.md release_assets/
+          git archive --format=tar.gz --prefix=TALLBMDeconv-v0.1.1/ HEAD > release_assets/TALLBMDeconv-code-v0.1.1.tar.gz
+          cd release_assets
+          sha256sum *.tar.gz RELEASE_NOTES_v0.1.1.md > SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: code-release-assets
+          path: release_assets/
+  release:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: code-release-assets
+          path: release_assets
+      - name: Publish v0.1.1 after successful CI
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          if gh release view v0.1.1 >/dev/null 2>&1; then
+            echo 'Existing release preserved; no overwrite.'
+          else
+            gh release create v0.1.1 --target "${{ github.sha }}" --title 'TALLBMDeconv v0.1.1 — code-only prerelease' --prerelease --notes-file release_assets/RELEASE_NOTES_v0.1.1.md release_assets/*
+          fi

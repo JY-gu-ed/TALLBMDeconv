@@ -1,0 +1,47 @@
+---
+title: "Reference, deconvolution and paired validation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Reference, deconvolution and paired validation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse=TRUE, comment="#>")
+library(TALLBMDeconv)
+```
+
+The package has three modes: installed atlas, custom reference and patient-level
+paired validation. Flow is optional in each. RNA composition, converted cell
+proxy, and within-group expression answer different questions.
+
+This small **synthetic software example** is not a clinical performance test.
+
+```{r}
+x <- matrix(c(20,3,6,1, 2,18,1,7, 19,4,7,2, 3,17,2,8), nrow=4)
+rownames(x) <- paste0("g",1:4)
+colnames(x) <- paste0("cell",1:4)
+a <- data.frame(cell_id=colnames(x), group=c("A","B","A","B"))
+ref <- tall_build_reference(x,a,c("donor1","donor1","donor2","donor2"),"example_v1")
+bulk <- cbind(validation_patient=rowSums(x))
+result <- tall_deconv(bulk,ref,config=list(iterations=400L,burnin=200L,thin=4L))
+tall_extract(result)
+tall_extract(result,"expression","A")
+tall_qc(result)
+```
+
+For clinical deployment use the frozen default sampler configuration, unchanged
+reference/gene IDs, and independently audited flow identities and denominators.
+Short chains in this example only exercise the API.
+
+`tall_benchmark` accepts a raw single-cell truth list with counts, cell_annotations
+and patient_ids. It checks patient leakage, evaluates composition separately from
+expression, reports missing coverage, compares expression with donor-equal reference
+means, and tests patient-specific variation. Overall holdout and LOPO require
+donor aggregates, not cell-level random splitting. Never call an input flow gate
+an independent composition validation.
+
+The full atlas deployment resource and the benchmark73 resource have distinct
+IDs. The former does not inherit the latter's heldout accuracy. See the README
+for installation, permission status, all scales, flow schemas and frozen settings.

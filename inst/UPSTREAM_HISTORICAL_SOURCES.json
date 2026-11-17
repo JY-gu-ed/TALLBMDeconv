@@ -1,0 +1,128 @@
+{
+  "upstream": "Danko-Lab/BayesPrism",
+  "version": "2.2.3",
+  "purpose": "Unmodified upstream source provenance for the historical algorithm; upstream remains an installed dependency, not vendored code.",
+  "license": "GPL-2 OR GPL-3",
+  "files": [
+    {
+      "package": "BayesPrism",
+      "relative_path": "DESCRIPTION",
+      "sha256": "ac9351ff71bd8d89df22e7a77c530e46a329a5a0b8e34aa0bdcfb3176c05e395",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "NAMESPACE",
+      "sha256": "23d0d38ad7f9fc83a6a1ce5e5ba9f04e1ca7fcb36f64a189a75cc6404169e1bf",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/JointPost_functions.R",
+      "sha256": "13011a4fc7d3931c434cae6ed26208bb751e9c96c102edbb9d31194768104349",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/Rcgminu.R",
+      "sha256": "5aff94c1339386c4348b8d7ec6ba6b3a61730773ed688acf4e8afe4b0826de64",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/classes.R",
+      "sha256": "c28c1d03b1156a48635ff70b96b263a7e0a2b305dbebc8ea0d80ff8fa9cbf47c",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/embedding_learning.R",
+      "sha256": "cfae82285e21bca4a413c758c43129032c59836a9113b4818147883ca0128a28",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/extract_result.R",
+      "sha256": "d9e23ef6895174b4b702c33a00fbf134aeadb51c1d7183a848a027e53c8f2d3d",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/generic.R",
+      "sha256": "84c99d628bfd8c5c6f8caaf5034beb44014e4eebb48f861429f148c26b6f70a3",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/new_prism.R",
+      "sha256": "e84493f7853018153e1b46aa3a7e01a69abe43d37f326fdd43664ee864fe0396",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/optim_functions_MAP.R",
+      "sha256": "597fd8d482f6e63503cc747b659702464460ca41b3b8c0896d229cc65832934f",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/optim_functions_MLE.R",
+      "sha256": "7a9052bca3a71574706a1177a43bd014a0a85392723cc0237949c452ad7bb1a4",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/plot_functions.R",
+      "sha256": "cc416f0e465aa968881ab8551e6ee60613d3d09417a5cda635e503c15ef8bec6",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/process_input.R",
+      "sha256": "29b411c5c5ce7452bad02b6377512be9fa2ad428fc5dc744518a9a59f87a9a37",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/run_gibbs.R",
+      "sha256": "211298478a48d380b5813e5af30ce71bb5de3bc9f52815be5dbf9cff184d334d",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/run_prism.R",
+      "sha256": "b63645bdebd2ee325b46508f705a0017f706efd79cccba33ab856c5595422a47",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/run_prism_st.R",
+      "sha256": "09f0e1a680ff25d9cd965f39c9e0d8cbf49178ea092f6d461a2f2ac8318a516c",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "R/update_reference.R",
+      "sha256": "b22c97fb083b15ae578bbcb7adf0e233434d04eb37fa8c3bea1b15da2ca03e05",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "inst/extdata/gencode.v22.broad.category.txt",
+      "sha256": "ba95292c0216d7e57229d8489b534474302168e7d6aae84316858e72c013c6f6",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "inst/extdata/genelist.hs.new.txt",
+      "sha256": "c9ecaa275072e5d55c73db65478f65551316134e843803f1a57ff0e8d1f9c8c8",
+      "official_unmodified_source": true
+    },
+    {
+      "package": "BayesPrism",
+      "relative_path": "inst/extdata/genelist.mm.new.txt",
+      "sha256": "90290b60fc3295c1d941e29f310b63f588ea2eb08c4547e7a881414464910f47",
+      "official_unmodified_source": true
+    }
+  ]
+}

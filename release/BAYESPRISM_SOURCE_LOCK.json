@@ -1,0 +1,31 @@
+{
+  "repository": "Danko-Lab/BayesPrism",
+  "version": "2.2.3",
+  "commit": "19052052a6f30833b27e2148294459b0ba2f923e",
+  "source_archive_sha256": "e5d4933a0d7559e4e9242e4230dbee4aa66e2d7b27bd13ca3cd3428025c385ee",
+  "historical_archive_sha256": "e5d4933a0d7559e4e9242e4230dbee4aa66e2d7b27bd13ca3cd3428025c385ee",
+  "historical_archive_bytes_identical": true,
+  "historical_files_matched": [
+    "DESCRIPTION",
+    "NAMESPACE",
+    "R/JointPost_functions.R",
+    "R/Rcgminu.R",
+    "R/classes.R",
+    "R/embedding_learning.R",
+    "R/extract_result.R",
+    "R/generic.R",
+    "R/new_prism.R",
+    "R/optim_functions_MAP.R",
+    "R/optim_functions_MLE.R",
+    "R/plot_functions.R",
+    "R/process_input.R",
+    "R/run_gibbs.R",
+    "R/run_prism.R",
+    "R/run_prism_st.R",
+    "R/update_reference.R",
+    "inst/extdata/gencode.v22.broad.category.txt",
+    "inst/extdata/genelist.hs.new.txt",
+    "inst/extdata/genelist.mm.new.txt"
+  ],
+  "url": "https://api.github.com/repos/Danko-Lab/BayesPrism/tarball/19052052a6f30833b27e2148294459b0ba2f923e"
+}
